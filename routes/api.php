@@ -3,23 +3,12 @@
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Artisan;
 use App\Models\DolarValue;
+use App\Http\Controllers\DolarApiController;
 
-Route::get('/api', function () {
-    Artisan::call('/dolar');  // Ejecutar el comando
-
-    // Obtener el último valor del dólar desde la base de datos
-    $ultimoDolar = DolarValue::latest()->first();
-
-    if (!$ultimoDolar) {
-        return response()->json([
-            'message' => 'No se pudo obtener el valor del dólar.',
-        ], 500);
-    }
-
-    return response()->json([
-        'dolar' => $ultimoDolar->valor,  // Valor actual del dólar
-        'fecha' => $ultimoDolar->fecha,  // Fecha de la consulta
-    ]);
+use Illuminate\Http\Request;
 
 Route::get('/rango', [DolarApiController::class, 'obtenerPorRango']);
-});
+Route::get('/dolar', [DolarApiController::class, 'dolar']);
+Route::put('/dolar/actualizar', [DolarApiController::class, 'actualizarPorFecha']);
+Route::delete('/dolar/eliminar', [DolarApiController::class, 'eliminarPorFecha']);
+

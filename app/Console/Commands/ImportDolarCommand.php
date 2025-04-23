@@ -20,6 +20,7 @@ class ImportDolarCommand extends Command
 
     public function handle()
     {
+        
         foreach ([2024, 2025] as $anio) {
             $this->dolarService->importarPorAnio($anio);
         }
